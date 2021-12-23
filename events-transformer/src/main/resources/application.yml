@@ -1,0 +1,20 @@
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      #group.id is required when group management is used
+      group-id: group_id
+      auto-offset-reset: earliest
+      # StringDeserializer is the default
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        # important configuration otherwise: Cannot convert from [org.apache.avro.generic.GenericData$Record] to [com.example.avro.RawMovie]
+        specific.avro.reader: true
+        schema.registry.url: http://localhost:8081
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        schema.registry.url: http://localhost:8081
